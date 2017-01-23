@@ -2,8 +2,7 @@
 
 // Job Role
 var $title = $('#title');
-var $otherJobRole = $('<label for="title_other">Your Job Role:</label>' +
-    '<input type="text" id="title_other" name="user_title_other">');
+var $otherJobRole = $('<input type="text" id="title_other" name="user_title_other" placeholder="Your job role">');
 
 // T-Shirt
 var $design = $('#design');
