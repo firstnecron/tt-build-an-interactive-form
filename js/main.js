@@ -24,7 +24,7 @@ var jobRoleSelected = function () {
     }
 };
 
-var designSelected = function() {
+var designSelected = function () {
     var $colorDiv = $('#colors-js-puns').show();
     switch (this.value) {
         case 'js puns':
@@ -45,13 +45,13 @@ var designSelected = function() {
 };
 
 // Hide color options and display placeholder option.
-var hideColorOptions = function() {
+var hideColorOptions = function () {
     $color.empty();
     $color.append($colorPlaceholder);
 };
 
 // Populate color options for each design
-var populateColorOptions = function() {
+var populateColorOptions = function () {
     var colorOptionArray = $color.find('option');
     // Loop through colorOptions
     for (var i = 0; i < colorOptionArray.length; i++) {
@@ -81,7 +81,7 @@ $design.on('change', designSelected);
 // Hide color div initially
 $('#colors-js-puns').hide();
 
-window.onload = function() {
+window.onload = function () {
     // Focus Name field
     $('#name').focus();
 
