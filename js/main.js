@@ -14,6 +14,9 @@ var colorOptions = {
     js_puns: []
 };
 
+// Activities
+var activityOptions = [];
+
 var jobRoleSelected = function () {
     // Add otherJobRole text input when "other" is selected as the job role's value
     // Otherwise, remove it
@@ -67,7 +70,29 @@ var populateColorOptions = function () {
         } else if (optionText.indexOf('js puns') > -1) {
             colorOptions.js_puns.push(colorOptionArray[i]);
         } else {
-            console.log('color option not found ' + optionText);
+            // console.log('color option not found ' + optionText);
+        }
+    }
+};
+
+var populateActivityOptions = function () {
+    var activityOptionArray = $('.activities label');
+    for (var i = 0; i < activityOptionArray.length; i++) {
+        // Regex to get activity data
+        var matchResult = activityOptionArray[i].textContent.match(/(.*) — (.*, )?(\$\d*)/);
+        if (matchResult) {
+            // [1] = activity
+            // [2] = time (optional)
+            // [3] = cost
+            var activity = {
+                name: $(activityOptionArray[i]).find('input').attr('name'),
+                activity: matchResult[1].trim(),
+                time: matchResult[2] ? matchResult[2].replace(', ', '') : null,
+                cost: matchResult[3]
+            };
+            activityOptions.push(activity);
+        } else {
+            // console.log('no match result: ' + matchResult);
         }
     }
 };
@@ -86,4 +111,5 @@ window.onload = function () {
     $('#name').focus();
 
     populateColorOptions();
+    populateActivityOptions();
 };
