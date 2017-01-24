@@ -153,7 +153,7 @@ $title.on('change', jobRoleSelected);
 // When the t-shirt design option is changed, run designSelected
 $design.on('change', designSelected);
 
-$('.activities label').on('change', function (event) {
+$('.activities label').on('change', function () {
     var $input = $(this).find('input');
     var activity = getActivity($input.attr('name'));
     handleActivityConflicts(activity, $input[0].checked); // Disable if checked
