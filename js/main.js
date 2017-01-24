@@ -161,11 +161,21 @@ $('.activities label').on('change', function () {
 
 });
 
+$('#payment').on('change', function () {
+    // Hide visible payment method
+    $('#credit-card, #paypal, #bitcoin').filter(':visible').hide();
+    // Show desired payment method
+    $('#' + this.value.trim().replace(' ', '-')).show();
+});
+
 // Hide color div initially
 $('#colors-js-puns').hide();
 
 // Append total to activities, hidden by default
 $activities.append($total);
+
+// Hide visible payment method
+$('#credit-card, #paypal, #bitcoin').hide();
 
 window.onload = function () {
     // Focus Name field
