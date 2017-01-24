@@ -16,6 +16,8 @@ var colorOptions = {
 // Activities
 var $activities = $('.activities');
 var activityOptions = [];
+var $total = $('<div id="total"></div>').hide();
+var totalCost = 0;
 
 var jobRoleSelected = function () {
     // Add otherJobRole text input when "other" is selected as the job role's value
@@ -88,7 +90,7 @@ var populateActivityOptions = function () {
                 name: $(activityOptionArray[i]).find('input').attr('name'),
                 activity: matchResult[1].trim(),
                 time: matchResult[2] ? matchResult[2].replace(', ', '') : null,
-                cost: matchResult[3].replace('$', ''),
+                cost: parseInt(matchResult[3].replace('$', '')),
                 element: $(activityOptionArray[i])
             };
             activityOptions.push(activity);
@@ -127,6 +129,24 @@ var handleActivityConflicts = function (activity, disable) {
     }
 };
 
+var handleActivityCost = function (activity, add) {
+    if (add) {
+        totalCost += activity.cost;
+    } else {
+        totalCost -= activity.cost;
+    }
+
+    $total.text('Total: $' + totalCost);
+
+    if (totalCost === 0) {
+        // Hide total cost
+        $total.hide();
+    } else {
+        // Display total cost
+        $total.show();
+    }
+};
+
 // When job role selection is changed, run jobRoleSelected
 $title.on('change', jobRoleSelected);
 
@@ -136,19 +156,16 @@ $design.on('change', designSelected);
 $('.activities label').on('change', function (event) {
     var $input = $(this).find('input');
     var activity = getActivity($input.attr('name'));
-    // If the input was checked
-    if ($input[0].checked) {
-        // See if other options conflict and disable them
-        handleActivityConflicts(activity, true);
-    } else {
-        // Re-enable disabled options
-        handleActivityConflicts(activity, false);
-    }
+    handleActivityConflicts(activity, $input[0].checked); // Disable if checked
+    handleActivityCost(activity, $input[0].checked); // Add if checked
 
 });
 
 // Hide color div initially
 $('#colors-js-puns').hide();
+
+// Append total to activities, hidden by default
+$activities.append($total);
 
 window.onload = function () {
     // Focus Name field
