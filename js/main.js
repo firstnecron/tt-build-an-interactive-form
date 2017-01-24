@@ -88,7 +88,7 @@ var populateActivityOptions = function () {
                 name: $(activityOptionArray[i]).find('input').attr('name'),
                 activity: matchResult[1].trim(),
                 time: matchResult[2] ? matchResult[2].replace(', ', '') : null,
-                cost: matchResult[3],
+                cost: matchResult[3].replace('$', ''),
                 element: $(activityOptionArray[i])
             };
             activityOptions.push(activity);
