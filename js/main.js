@@ -14,6 +14,7 @@ var colorOptions = {
 };
 
 // Activities
+var $activities = $('.activities');
 var activityOptions = [];
 
 var jobRoleSelected = function () {
@@ -87,11 +88,41 @@ var populateActivityOptions = function () {
                 name: $(activityOptionArray[i]).find('input').attr('name'),
                 activity: matchResult[1].trim(),
                 time: matchResult[2] ? matchResult[2].replace(', ', '') : null,
-                cost: matchResult[3]
+                cost: matchResult[3],
+                element: $(activityOptionArray[i])
             };
             activityOptions.push(activity);
         } else {
             // console.log('no match result: ' + matchResult);
+        }
+    }
+};
+
+var getActivity = function (activityName) {
+    for (var i = 0; i < activityOptions.length; i++) {
+        if (activityOptions[i].name.toLowerCase() === activityName.toLowerCase()) {
+            return activityOptions[i];
+        }
+    }
+};
+
+var handleActivityConflicts = function (activity, disable) {
+    for (var i = 0; i < activityOptions.length; i++) {
+        // If it is not the activity itself, check
+        if (activityOptions[i].name.toLowerCase() !== activity.name.toLowerCase()) {
+            // If times match
+            if (activityOptions[i].time === activity.time) {
+                console.log('match');
+                if (disable === true) {
+                    // Disable conflicts
+                    activityOptions[i].element.addClass('text-muted');
+                    activityOptions[i].element.find('input').prop('disabled', true)
+                } else {
+                    // Enable conflicts
+                    activityOptions[i].element.removeClass('text-muted');
+                    activityOptions[i].element.find('input').prop('disabled', false)
+                }
+            }
         }
     }
 };
@@ -101,6 +132,20 @@ $title.on('change', jobRoleSelected);
 
 // When the t-shirt design option is changed, run designSelected
 $design.on('change', designSelected);
+
+$('.activities label').on('change', function (event) {
+    var $input = $(this).find('input');
+    var activity = getActivity($input.attr('name'));
+    // If the input was checked
+    if ($input[0].checked) {
+        // See if other options conflict and disable them
+        handleActivityConflicts(activity, true);
+    } else {
+        // Re-enable disabled options
+        handleActivityConflicts(activity, false);
+    }
+
+});
 
 // Hide color div initially
 $('#colors-js-puns').hide();
