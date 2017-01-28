@@ -125,6 +125,7 @@ button:hover {
 .container {
 	margin: auto;
 	max-width: 680px;
+	position: relative;
 }
 
 .shirt div {
@@ -138,6 +139,50 @@ button:hover {
 
 .credit-card {
 	margin-top: 1.25em;
+}
+
+#error-box {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.fixed-error-box {
+	background-color: #ffffff;
+	min-height: 100px;
+	width: 300px;
+	position: fixed;
+	top: 50%;
+	transform: translate(-10px, -50%);
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.fixed-error-box::before {
+	content: '';
+	width: 0;
+	height: 0;
+	border-top: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+	border-right: 10px solid #ffffff;
+	position: absolute;
+	top:50%;
+	transform: translate(0, -50%);
+	margin-left: -10px;
+}
+
+#errors {
+	list-style: none;
+	padding-left: 30px;
+}
+
+.check-mark::before {
+	content: '✔'; /* ✔ &#10004; */
+	color: #4F8A10;
+}
+
+.x-mark::before {
+	content: '✘'; /* ✘ &#10008; */
+	color: #D8000C;
 }
 
 /* ================================= 
@@ -163,6 +208,11 @@ button:hover {
 
 .text-error {
 	color: #cc0000;
+}
+
+.input-error {
+	border-color: #cc0000 !important;
+	background-color: rgba(204, 0, 0, .05);
 }
 
 /* ================================= 
@@ -193,5 +243,11 @@ button:hover {
 	}
 	.col-6 {
 		width: 49%;
+	}
+}
+
+@media (max-width: 1350px) {
+	#error-box {
+		display: none !important;
 	}
 }
